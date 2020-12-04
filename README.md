@@ -1,2 +1,2 @@
 # CookieBot
-CookieBot ist ein deutscher DiscordBot der immer erweitert wird.
+CookieBot ist ein deutscher Discordbot, der immer erweitert wird.
