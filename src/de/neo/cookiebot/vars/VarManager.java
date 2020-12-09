@@ -25,4 +25,8 @@ public class VarManager {
 	public HashMap<VarType, String> getVars(){
 		return this.val;
 	}
+
+	public void clear() {
+		this.val.clear();
+	}
 }

@@ -1,5 +1,8 @@
 package de.neo.cookiebot;
 
+import java.io.*;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,13 +11,16 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.security.auth.login.LoginException;
 
 import de.neo.cookiebot.commands.CommandManager;
 import de.neo.cookiebot.config.Config;
 import de.neo.cookiebot.game.GameManager;
 import de.neo.cookiebot.listener.MessageReceivedListener;
+import de.neo.cookiebot.setup.Setup;
 import de.neo.cookiebot.sql.ID_SQL;
+import de.neo.cookiebot.util.ErrorReporter;
 import de.neo.cookiebot.vars.VarManager;
 import de.neo.cookiebot.vars.VarType;
 import net.dv8tion.jda.api.JDA;
@@ -41,6 +47,8 @@ public class Main {
 	
 	public static HashMap<String, VarManager> vars = new HashMap<>();
 	public static HashMap<Member, Member> tictactoe_request = new HashMap<>();
+	public static Boolean setup = false;
+	public static Setup setup_c = null;
 	
 	public static void main(String[] args) throws InterruptedException, LoginException, SQLException {
 		new Main();
@@ -76,6 +84,16 @@ public class Main {
 			VarManager vars = new VarManager();
 			for(Entry<VarType, String> set : ID_SQL.getAll(g.getId()).entrySet()) {
 				vars.add(set.getKey(), set.getValue());
+			}
+			if(vars.contains(VarType.LICENSE_KEY)){
+				if(this.checkKey(vars.get(VarType.LICENSE_KEY), g.getId())){
+					System.out.println(g.getName() + " hat einen gültigen Lizenschlüssel.");
+				}else {
+					try{
+						g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
+					}catch (ErrorResponseException ignore){
+					}
+				}
 			}
 			Main.vars.put(g.getId(), vars);
 		}
@@ -163,5 +181,49 @@ public class Main {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Boolean checkKey(String key, String id) {
+		try{
+			String params = "key=" + URLEncoder.encode(key, "UTF-8") + "&guild=" + URLEncoder.encode(id, "UTF-8");
+			URL url = new URL("https://www.neo8.de/cookiebot/validate.php");
+			HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+			con.setDoOutput(true);
+			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			con.setFixedLengthStreamingMode(params.getBytes().length);
+
+			OutputStreamWriter cw = new OutputStreamWriter(con.getOutputStream());
+			cw.write(params);
+			cw.flush();
+			cw.close();
+
+			String response = this.parse(con.getInputStream());
+			con.disconnect();
+			if(response.toLowerCase().equals("valid")) {
+				return true;
+			}else {
+				return false;
+			}
+		}catch(IOException ignore) {
+			return false;
+		}
+	}
+
+	private String parse(InputStream is) {
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		StringBuilder sb = new StringBuilder();
+
+		String az;
+		try{
+			while((az = br.readLine()) != null){
+				sb.append(az);
+				sb.append("\n");
+			}
+
+			br.close();
+		}catch(IOException ignore){
+		}
+
+		return sb.toString().trim();
 	}
 }

@@ -6,5 +6,6 @@ public enum VarType {
     REPORT_ERRORS,
     RULES,
     SUPPORT,
-    TICTACTOE_CATEGORY
+    TICTACTOE_CATEGORY,
+    LICENSE_KEY
 }
