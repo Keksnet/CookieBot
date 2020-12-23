@@ -7,5 +7,6 @@ public enum VarType {
     RULES,
     SUPPORT,
     TICTACTOE_CATEGORY,
-    LICENSE_KEY
+    LICENSE_KEY,
+    PREFIX
 }

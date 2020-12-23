@@ -17,9 +17,12 @@ import javax.security.auth.login.LoginException;
 import de.neo.cookiebot.commands.CommandManager;
 import de.neo.cookiebot.config.Config;
 import de.neo.cookiebot.game.GameManager;
+import de.neo.cookiebot.listener.GuildJoin;
 import de.neo.cookiebot.listener.MessageReceivedListener;
 import de.neo.cookiebot.setup.Setup;
 import de.neo.cookiebot.sql.ID_SQL;
+import de.neo.cookiebot.sql.License_SQL;
+import de.neo.cookiebot.tick.LicenseTick;
 import de.neo.cookiebot.util.ErrorReporter;
 import de.neo.cookiebot.vars.VarManager;
 import de.neo.cookiebot.vars.VarType;
@@ -31,7 +34,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class Main {
@@ -44,6 +46,7 @@ public class Main {
 	public static Config conf;
 	public static GameManager gm;
 	public static CommandManager cm;
+	public static LicenseTick lt;
 	
 	public static HashMap<String, VarManager> vars = new HashMap<>();
 	public static HashMap<Member, Member> tictactoe_request = new HashMap<>();
@@ -69,17 +72,16 @@ public class Main {
 		builder.enableIntents(EnumSet.allOf(GatewayIntent.class));
 		builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 		builder.addEventListeners(new MessageReceivedListener());
+		builder.addEventListeners(new GuildJoin());
 		jda = builder.build();
 		jda.awaitReady();
 		manager = jda;
 		System.out.println("Online!");
 		setToken();
-		conf.getSQL().closeConnection();
 		this.start();
 	}
 	
 	public void start() {
-		conf.getSQL().openConnection();
 		for(Guild g : this.manager.getGuilds()) {
 			VarManager vars = new VarManager();
 			for(Entry<VarType, String> set : ID_SQL.getAll(g.getId()).entrySet()) {
@@ -87,16 +89,68 @@ public class Main {
 			}
 			if(vars.contains(VarType.LICENSE_KEY)){
 				if(this.checkKey(vars.get(VarType.LICENSE_KEY), g.getId())){
-					System.out.println(g.getName() + " hat einen gÃ¼ltigen LizenschlÃ¼ssel.");
+					License_SQL.setLicense(g.getId(), vars.get(VarType.LICENSE_KEY));
+					System.out.println(g.getName() + " hat einen gültigen Lizenschlüssel.");
 				}else {
+					License_SQL.setLicense(g.getId(), "AAAA-BBBB-CCCC-DDDD");
 					try{
-						g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir auf https://www.neo8.de/cookiebot/license.php eine LizenzschlÃ¼ssel und lÃ¶se diesen im !setup ein.", true).build()).complete();
+						g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir für " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
 					}catch (ErrorResponseException ignore){
 					}
 				}
+			}else {
+				License_SQL.setLicense(g.getId(), "AAAA-BBBB-CCCC-DDDD");
+				try{
+					g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir für " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
+				}catch (ErrorResponseException ignore){
+				}
+			}
+			if(!vars.contains(VarType.PREFIX)) {
+				vars.add(VarType.PREFIX, "!");
+			}
+			try {
+				ID_SQL.sync(vars.getVars(), g.getId());
+			} catch(SQLException ignore) {
 			}
 			Main.vars.put(g.getId(), vars);
 		}
+		conf.getSQL().closeConnection();
+		lt = new LicenseTick(120);
+		lt.run();
+	}
+	
+	public void add(Guild g) {
+		conf.getSQL().openConnection();
+		VarManager vars = new VarManager();
+		for(Entry<VarType, String> set : ID_SQL.getAll(g.getId()).entrySet()) {
+			vars.add(set.getKey(), set.getValue());
+		}
+		if(vars.contains(VarType.LICENSE_KEY)){
+			if(this.checkKey(vars.get(VarType.LICENSE_KEY), g.getId())){
+				License_SQL.setLicense(g.getId(), vars.get(VarType.LICENSE_KEY));
+				System.out.println(g.getName() + " hat einen gültigen Lizenschlüssel.");
+			}else {
+				License_SQL.setLicense(g.getId(), "AAAA-BBBB-CCCC-DDDD");
+				try{
+					g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir für " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
+				}catch (ErrorResponseException ignore){
+				}
+			}
+		}else {
+			License_SQL.setLicense(g.getId(), "AAAA-BBBB-CCCC-DDDD");
+			try{
+				g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir für " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
+			}catch (ErrorResponseException ignore){
+			}
+		}
+		if(!vars.contains(VarType.PREFIX)) {
+			vars.add(VarType.PREFIX, "!");
+		}
+		try {
+			ID_SQL.sync(vars.getVars(), g.getId());
+		} catch(SQLException ignore) {
+		}
+		Main.vars.put(g.getId(), vars);
 		conf.getSQL().closeConnection();
 	}
 
@@ -116,6 +170,8 @@ public class Main {
 		PreparedStatement st = conf.getSQL().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS config (guild varchar(255), namespace varchar(255), val varchar(255))");
 		st.execute();
 		st = conf.getSQL().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS enviroment (guild varchar(255), namespace varchar(255), val varchar(255))");
+		st.execute();
+		st = conf.getSQL().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS licenses (guild varchar(255), key varchar(255), lastSuccess varchar(255))");
 		st.execute();
 	}
 	
