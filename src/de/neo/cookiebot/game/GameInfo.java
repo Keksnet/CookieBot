@@ -3,7 +3,6 @@ package de.neo.cookiebot.game;
 import net.dv8tion.jda.api.entities.Member;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GameInfo {
 

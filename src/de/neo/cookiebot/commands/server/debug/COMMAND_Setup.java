@@ -15,7 +15,7 @@ public class COMMAND_Setup implements ServerCommand {
     @Override
     public void performCommand(Member m, TextChannel c, Message msg) {
         if(m.getGuild().getOwnerId().equals(m.getId())) {
-            c.sendMessage(new Embed("Setup [1/9]", "Hallo, ich bin der CookieBot :cookie:!\nIch werde dich nun durch mein Setup begleiten.\nSchreibe `start` um mit dem Setup zu beginnen!", Color.green).build()).queue();
+            c.sendMessage(new Embed("Setup [1/10]", "Hallo, ich bin der CookieBot :cookie:!\nIch werde dich nun durch mein Setup begleiten.\nSchreibe `start` um mit dem Setup zu beginnen!", Color.green).build()).queue();
             Setup s = new Setup(m);
             Main.setup_c = s;
             Main.setup = true;

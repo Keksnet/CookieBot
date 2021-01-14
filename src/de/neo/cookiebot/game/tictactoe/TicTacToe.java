@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.entities.*;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -199,7 +198,8 @@ public class TicTacToe implements Game {
         }
     }
 
-    @Override
+    @SuppressWarnings("unused")
+	@Override
     public void interact(Message msg) {
         Member m = msg.getMember();
         String content = msg.getContentRaw();
@@ -274,7 +274,8 @@ public class TicTacToe implements Game {
         }
     }
 
-    @Override
+    @SuppressWarnings("unused")
+	@Override
     public void win(Member m) throws IllegalAccessException {
         this.text.sendMessage(new Embed("TicTacToe (Ende)", m.getEffectiveName() + " hat gewonnen! :tada: Herzlichen Glückwunsch! :gift:\n\nDieser Channel wird in 20 Sekunden gelöscht!", Color.green).build()).complete();
         ExecutorService threadpool = Executors.newCachedThreadPool();

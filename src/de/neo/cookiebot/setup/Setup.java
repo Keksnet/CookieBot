@@ -2,6 +2,7 @@ package de.neo.cookiebot.setup;
 
 import de.neo.cookiebot.Main;
 import de.neo.cookiebot.sql.ID_SQL;
+import de.neo.cookiebot.sql.License_SQL;
 import de.neo.cookiebot.util.Embed;
 import de.neo.cookiebot.vars.VarManager;
 import de.neo.cookiebot.vars.VarType;
@@ -47,10 +48,10 @@ public class Setup {
                     }
                     break;
 
-                case STEP_1:
+                case STEP_6:
                     if(!msg.getMentionedRoles().isEmpty()) {
                         vals.put(VarType.TECHNIK, msg.getMentionedRoles().get(0).getId());
-                        this.step = SetupStep.STEP_2;
+                        this.step = SetupStep.STEP_7;
                         this.sendMessage(msg.getTextChannel());
                     }else {
                         this.sendError(msg.getTextChannel());
@@ -102,18 +103,25 @@ public class Setup {
                     }
                     break;
 
-                case STEP_6:
+                case STEP_1:
                     content = content.replace("-", "").toUpperCase();
                     if(content.length() == 16) {
                         if(this.checkKey(content, g.getId())) {
                             vals.put(VarType.LICENSE_KEY, content);
-                            this.step = SetupStep.STEP_7;
+                            this.step = SetupStep.STEP_2;
+                            Main.conf.getSQL().openConnection();
+                            License_SQL.setLicense(msg.getGuild().getId(), content);
+                            Main.conf.getSQL().closeConnection();
                             this.sendMessage(msg.getTextChannel());
                         }else {
                             vars.clear();
+                            this.sendError(msg.getTextChannel());
+                            System.out.println("Nicht gültig! " + content.length() + " => " + content);
                         }
                     }else {
                         vars.clear();
+                        this.sendError(msg.getTextChannel());
+                        System.out.println("Nicht richtige Länge! " + content.length() + " => " + (content.length() == 16) + " => " + content);
                     }
                     break;
 
@@ -122,42 +130,54 @@ public class Setup {
                     this.step = SetupStep.STEP_8;
                     this.sendMessage(msg.getTextChannel());
                     break;
+                    
+                case STEP_8:
+                    vals.put(VarType.PREFIX, content);
+                    this.step = SetupStep.STEP_9;
+                    this.sendMessage(msg.getTextChannel());
+                    break;
+			default:
+				break;
             }
         }
     }
 
     public void sendMessage(TextChannel c) {
         switch (this.step) {
-            case STEP_1:
-                c.sendMessage(new Embed("Setup [2/9]", "Bitte pinge die Technikrolle, die den Bot uneingeschrÃ¤nkt nutzen kann.", Color.green).build()).queue();
+            case STEP_6:
+                c.sendMessage(new Embed("Setup [7/10]", "Bitte pinge die Technikrolle, die den Bot uneingeschrÃ¤nkt nutzen kann.", Color.green).build()).queue();
                 break;
 
             case STEP_2:
-                c.sendMessage(new Embed("Setup [3/9]", "Bitte pinge die Debugrolle, die wichtige Nachrichten erhalten soll. (DM mÃ¼ssen aktiviert sein.)", Color.green).build()).queue();
+                c.sendMessage(new Embed("Setup [3/10]", "Bitte pinge die Debugrolle, die wichtige Nachrichten erhalten soll. (DM müssen aktiviert sein.)", Color.green).build()).queue();
                 break;
 
             case STEP_3:
-                c.sendMessage(new Embed("Setup [4/9]", "Soll die Debugrolle wichtige Nachrichten erhalten? (true/false)", Color.green).build()).queue();
+                c.sendMessage(new Embed("Setup [4/10]", "Soll die Debugrolle wichtige Nachrichten erhalten? (true/false)", Color.green).build()).queue();
                 break;
 
             case STEP_4:
-                c.sendMessage(new Embed("Setup [5/9]", "Bitte pinge den Kanal mit den Regeln (z.B. " + c.getAsMention() + ")", Color.green).build()).queue();
+                c.sendMessage(new Embed("Setup [5/10]", "Bitte pinge den Kanal mit den Regeln (z.B. " + c.getAsMention() + ")", Color.green).build()).queue();
                 break;
 
             case STEP_5:
-                c.sendMessage(new Embed("Setup [6/9]", "Bitte pinge den Kanal mit dem Support (z.B. " + c.getAsMention() + ")", Color.green).build()).queue();
+                c.sendMessage(new Embed("Setup [6/10]", "Bitte pinge den Kanal mit dem Support (z.B. " + c.getAsMention() + ")", Color.green).build()).queue();
                 break;
 
-            case STEP_6:
-                c.sendMessage(new Embed("Setup [7/9]", "Bitte gebe den 16-stelligen LizenzschlÃ¼ssel ein.", Color.green).build()).queue();
+            case STEP_1:
+                c.sendMessage(new Embed("Setup [2/10]", "Bitte gebe den 16-stelligen Lizenzschlüssel ein.", Color.green).build()).queue();
                 break;
 
             case STEP_7:
-                c.sendMessage(new Embed("Setup [8/9]", "Bitte gebe die ID der Kategorie fÃ¼r TicTacToe ein.", Color.green).build()).queue();
+                c.sendMessage(new Embed("Setup [8/10]", "Bitte gebe die ID der Kategorie für TicTacToe ein.", Color.green).build()).queue();
+                break;
+                
+            case STEP_8:
+                c.sendMessage(new Embed("Setup [9/10]", "Bitte gebe den von dir gewünschten Prefix an (z.B. !).", Color.green).build()).queue();
                 break;
 
-            case STEP_8:
-                c.sendMessage(new Embed("Setup [9/9]", "Das Setup wurde erfolgreich beendet! :tada:", Color.green).build()).queue();
+            case STEP_9:
+                c.sendMessage(new Embed("Setup [10/10]", "Das Setup wurde erfolgreich beendet! :tada:", Color.green).build()).queue();
                 Main.setup = false;
                 for(Map.Entry<VarType, String> set : this.vals.entrySet()){
                     Main.vars.get(c.getGuild().getId()).add(set.getKey(), set.getValue());
@@ -167,11 +187,14 @@ public class Setup {
                 }catch(SQLException ignore){
                 }
                 break;
+                
+            default:
+            	break;
         }
     }
 
     public void sendError(TextChannel c) {
-        c.sendMessage(new Embed("Setup [Fehler]", ":x: Dieser Wert ist nicht gÃ¼ltig! :x:", Color.red).build()).queue();
+        c.sendMessage(new Embed("Setup [Fehler]", ":x: Dieser Wert ist nicht gültig! :x:", Color.red).build()).queue();
     }
 
     public Boolean checkKey(String key, String id) {
@@ -193,6 +216,7 @@ public class Setup {
             if(response.toLowerCase().equals("valid")) {
                 return true;
             }else {
+            	System.out.println(response);
                 return false;
             }
         }catch(IOException ignore) {
