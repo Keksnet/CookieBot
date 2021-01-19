@@ -17,7 +17,7 @@ public enum SetupStep {
     
     /**
      * Schritt 2.
-     * Lizenzschlüssel wird erwartet.
+     * Lizenzschl&uuml;ssel wird erwartet.
      */
     STEP_1,
     

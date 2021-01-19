@@ -3,7 +3,7 @@ package de.neo.cookiebot.account;
 import de.neo.cookiebot.account.type.MasterAccount;
 
 /**
- * Interface für Accounts.
+ * Interface f&uuml;r Accounts.
  * 
  * @author Neo8
  * @version 1.0
@@ -11,14 +11,14 @@ import de.neo.cookiebot.account.type.MasterAccount;
 public interface Account {
 	
 	/**
-	 * Gibt den AccountTyp zurück.
+	 * Gibt den AccountTyp zur&uuml;ck.
 	 * 
 	 * @return Typ des Accounts.
 	 */
 	public abstract AccountType getType();
 	
 	/**
-	 * Gibt den MasterAccount zurück.
+	 * Gibt den MasterAccount zur&uuml;ck.
 	 * 
 	 * @return MasterAccount des Accounts.
 	 */
@@ -32,7 +32,7 @@ public interface Account {
 	/**
 	 * Entfernt den Account.
 	 * 
-	 * @throws IllegalAccessException Wird geworfen, wenn essentielle Accounts gelöscht werden sollen. Zum Beispiel {@link de.neo.cookiebot.account.type.MasterAccount}
+	 * @throws IllegalAccessException Wird geworfen, wenn essentielle Accounts gel&ouml;scht werden sollen. Zum Beispiel {@link de.neo.cookiebot.account.type.MasterAccount}
 	 * @see de.neo.cookiebot.account.type.MasterAccount
 	 */
 	public abstract void delete() throws IllegalAccessException;

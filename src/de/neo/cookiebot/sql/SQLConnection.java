@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Prüfen der SQLVerbindung.
+ * Pr&uuml;fen der SQLVerbindung.
  * 
  * @author Neo8
  * @version 1.0

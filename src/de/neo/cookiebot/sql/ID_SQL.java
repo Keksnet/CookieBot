@@ -10,7 +10,7 @@ import de.neo.cookiebot.Main;
 import de.neo.cookiebot.vars.VarType;
 
 /**
- * SQL für das Verwalten der Config.
+ * SQL f&uuml;r das Verwalten der Config.
  * 
  * @author Neo8
  * @version 1.0
@@ -20,7 +20,7 @@ import de.neo.cookiebot.vars.VarType;
 public class ID_SQL {
 	
 	/**
-	 * Gibt die Einstellungen zurück.
+	 * Gibt die Einstellungen zur&uuml;ck.
 	 * 
 	 * @param guildId ID des Servers.
 	 * @return HashMap mit allen Einstellungen.
@@ -57,7 +57,7 @@ public class ID_SQL {
 	}
 	
 	/**
-	 * Löschen aller Einstellungen.
+	 * L&ouml;schen aller Einstellungen.
 	 * 
 	 * @param key Name der Einstellung.
 	 * @param guildId ID des Servers, auf dem die Einstellung gilt.

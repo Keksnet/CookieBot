@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 /**
- * Interface für ein Game.
+ * Interface f&uuml;r ein Game.
  * 
  * @author Neo8
  * @version 1.0
@@ -13,14 +13,14 @@ import net.dv8tion.jda.api.entities.TextChannel;
 public interface Game {
 	
 	/**
-	 * Gibt eine Info über den aktuellen Spielstand zurück.
+	 * Gibt eine Info &uuml;ber den aktuellen Spielstand zur&uuml;ck.
 	 * 
-	 * @return Info über den aktuellen Spielstand.
+	 * @return Info &uuml;ber den aktuellen Spielstand.
 	 */
     public abstract GameInfo getInfo();
     
     /**
-     * Gibt den TextChannel, des Spiels zurück.
+     * Gibt den TextChannel, des Spiels zur&uuml;ck.
      * 
      * @return TextChannel in dem das Spiel stattfindet.
      */
@@ -40,7 +40,7 @@ public interface Game {
     public abstract void start();
     
     /**
-     * Lässt eine Interaction mit dem Spiel zu.
+     * L&auml;sst eine Interaction mit dem Spiel zu.
      * 
      * @param msg Message, die mit dem Spiel interagiert.
      */
@@ -52,25 +52,25 @@ public interface Game {
     public abstract void stop();
     
     /**
-     * Lässt einen Spieler gewinnen.
+     * L&auml;sst einen Spieler gewinnen.
      * 
      * @param m Member, der gewinnt.
-     * @throws IllegalAccessException Manche Spiele sind unendlich und können nicht gewonnen werden.
+     * @throws IllegalAccessException Manche Spiele sind unendlich und k&ouml;nnen nicht gewonnen werden.
      */
     public abstract void win(Member m) throws IllegalAccessException;
     
     /**
-     * Lässt einen Spieler verlieren.
+     * L&auml;sst einen Spieler verlieren.
      * 
      * @param m Member, der verliert.
-     * @throws IllegalAccessException Manche Spiele sind unendlich und können nicht verloren werden.
+     * @throws IllegalAccessException Manche Spiele sind unendlich und k&ouml;nnen nicht verloren werden.
      */
     public abstract void loose(Member m) throws IllegalAccessException;
     
     /**
      * Startet ein Spiel neu.
      * 
-     * @throws IllegalAccessException Manche Spiele müssen manuell neugestartet werden.
+     * @throws IllegalAccessException Manche Spiele m&uuml;ssen manuell neugestartet werden.
      */
     public abstract void restart() throws IllegalAccessException;
 }

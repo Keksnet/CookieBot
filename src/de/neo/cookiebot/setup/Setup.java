@@ -34,7 +34,6 @@ public class Setup {
     /**
      * Neuer Setup Prozess.
      * 
-     * @param m Member, der den Prozess gestartet hat.
      */
     public Setup() {
         this.step = SetupStep.STEP_0;
@@ -135,12 +134,12 @@ public class Setup {
                         }else {
                             vars.clear();
                             this.sendError(msg.getTextChannel());
-                            System.out.println("Nicht gültig! " + content.length() + " => " + content);
+                            System.out.println("Nicht g&uuml;ltig! " + content.length() + " => " + content);
                         }
                     }else {
                         vars.clear();
                         this.sendError(msg.getTextChannel());
-                        System.out.println("Nicht richtige Länge! " + content.length() + " => " + (content.length() == 16) + " => " + content);
+                        System.out.println("Nicht richtige L&auml;nge! " + content.length() + " => " + (content.length() == 16) + " => " + content);
                     }
                     break;
 
@@ -173,7 +172,7 @@ public class Setup {
                 break;
 
             case STEP_2:
-                c.sendMessage(new Embed("Setup [3/10]", "Bitte pinge die Debugrolle, die wichtige Nachrichten erhalten soll. (DM müssen aktiviert sein.)", Color.green).build()).queue();
+                c.sendMessage(new Embed("Setup [3/10]", "Bitte pinge die Debugrolle, die wichtige Nachrichten erhalten soll. (DM m&uuml;ssen aktiviert sein.)", Color.green).build()).queue();
                 break;
 
             case STEP_3:
@@ -189,15 +188,15 @@ public class Setup {
                 break;
 
             case STEP_1:
-                c.sendMessage(new Embed("Setup [2/10]", "Bitte gebe den 16-stelligen Lizenzschlüssel ein.", Color.green).build()).queue();
+                c.sendMessage(new Embed("Setup [2/10]", "Bitte gebe den 16-stelligen Lizenzschl&uuml;ssel ein.", Color.green).build()).queue();
                 break;
 
             case STEP_7:
-                c.sendMessage(new Embed("Setup [8/10]", "Bitte gebe die ID der Kategorie für TicTacToe ein.", Color.green).build()).queue();
+                c.sendMessage(new Embed("Setup [8/10]", "Bitte gebe die ID der Kategorie f&uuml;r TicTacToe ein.", Color.green).build()).queue();
                 break;
                 
             case STEP_8:
-                c.sendMessage(new Embed("Setup [9/10]", "Bitte gebe den von dir gewünschten Prefix an (z.B. !).", Color.green).build()).queue();
+                c.sendMessage(new Embed("Setup [9/10]", "Bitte gebe den von dir gew&uuml;nschten Prefix an (z.B. !).", Color.green).build()).queue();
                 break;
 
             case STEP_9:
@@ -225,15 +224,15 @@ public class Setup {
      * @param c TextChannel, in den die Fehlermeldung gesendet werden soll.
      */
     public void sendError(TextChannel c) {
-        c.sendMessage(new Embed("Setup [Fehler]", ":x: Dieser Wert ist nicht gültig! :x:", Color.red).build()).queue();
+        c.sendMessage(new Embed("Setup [Fehler]", ":x: Dieser Wert ist nicht g&uuml;ltig! :x:", Color.red).build()).queue();
     }
     
     /**
-     * Lizenzschlüssel prüfen.
+     * Lizenzschl&uuml;ssel pr&uuml;fen.
      * 
-     * @param key Lizenzschlüssel der geprüft werden soll.
+     * @param key Lizenzschl&uuml;ssel der gepr&uuml;ft werden soll.
      * @param id GuildID.
-     * @return Boolean, ob der Lizenzschlüssel gültig ist.
+     * @return Boolean, ob der Lizenzschl&uuml;ssel g&uuml;ltig ist.
      */
     public Boolean checkKey(String key, String id) {
         try{

@@ -5,7 +5,7 @@ import java.io.File;
 import de.neo.cookiebot.sql.SQL;
 
 /**
- * Kümmert sich um die Config.
+ * K&uuml;mmert sich um die Config.
  * 
  * @author Neo8
  * @version 1.0
@@ -30,7 +30,7 @@ public class Config {
 	}
 	
 	/**
-	 * Gibt die SQLVerbindung zurück.
+	 * Gibt die SQLVerbindung zur&uuml;ck.
 	 * 
 	 * @return SQLVerbindung.
 	 */

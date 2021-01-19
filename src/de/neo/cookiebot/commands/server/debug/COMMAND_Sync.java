@@ -29,12 +29,12 @@ public class COMMAND_Sync implements ServerCommand {
 			c.sendMessage(new Embed("Sync", ":gear: Der Sync wurde gestartet. :gear:", Color.cyan).build()).queue();
 			try {
 				ID_SQL.sync(Main.vars.get(m.getGuild().getId()).getVars(), m.getGuild().getId());
-				c.sendMessage(new Embed("Sync", ":white_check_mark: Der Sync wurde erfolgreich ausgeführt. :white_check_mark:", Color.green).build()).queue();
+				c.sendMessage(new Embed("Sync", ":white_check_mark: Der Sync wurde erfolgreich ausgef&uuml;hrt. :white_check_mark:", Color.green).build()).queue();
 			} catch (SQLException e) {
 				Logger l = new Logger(m.getGuild());
-				c.sendMessage(new Embed("Sync", ":x: Der Sync konnte nicht ausgeführt werden. :x:\nLogID: " + l.getLogID(), Color.red).build()).queue();
+				c.sendMessage(new Embed("Sync", ":x: Der Sync konnte nicht ausgef&uuml;hrt werden. :x:\nLogID: " + l.getLogID(), Color.red).build()).queue();
 				l.log("[LOG ANFANG]");
-				l.log("Sync konnte nicht ausgeführt werden: " + e.getMessage());
+				l.log("Sync konnte nicht ausgef&uuml;hrt werden: " + e.getMessage());
 				for(StackTraceElement s : e.getStackTrace()) {
 					l.log(s.toString());
 				}

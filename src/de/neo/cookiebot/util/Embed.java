@@ -35,9 +35,9 @@ public class Embed {
     }
     
     /**
-     * Gibt die fertige Nachricht zurück.
+     * Gibt die fertige Nachricht zur&uuml;ck.
      * 
-     * @return Message, die das Embed enthält.
+     * @return Message, die das Embed enth&auml;lt.
      */
     public Message build() {
         EmbedBuilder embed = new EmbedBuilder();

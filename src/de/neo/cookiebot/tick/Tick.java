@@ -1,7 +1,7 @@
 package de.neo.cookiebot.tick;
 
 /**
- * Interface für regelmäßig ausgeführte Ticks.
+ * Interface f&uuml;r regelm&auml;&szlig;ig ausgef&uuml;hrte Ticks.
  * 
  * @author Neo8
  * @version 1.0
@@ -9,12 +9,12 @@ package de.neo.cookiebot.tick;
 public interface Tick {
 	
 	/**
-	 * Starten des regelmäßigen Ticks.
+	 * Starten des regelm&auml;&szlig;igen Ticks.
 	 */
 	public abstract void run();
 	
 	/**
-	 * Einmaliges ausführen des Ticks.
+	 * Einmaliges ausf&uuml;hren des Ticks.
 	 */
 	public abstract void tick();
 	

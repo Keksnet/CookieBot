@@ -14,7 +14,7 @@ import de.neo.cookiebot.vars.VarType;
 import net.dv8tion.jda.api.entities.Guild;
 
 /**
- * Logger für Fehler
+ * Logger f&uuml;r Fehler
  * 
  * @author Neo8
  * @version 1.0
@@ -28,7 +28,7 @@ public class Logger {
 	/**
 	 * Neuer Logger
 	 * 
-	 * @param g Server, für den geloggt werden soll.
+	 * @param g Server, f&uuml;r den geloggt werden soll.
 	 */
 	public Logger(Guild g) {
 		File d = new File("logs/");
@@ -49,11 +49,11 @@ public class Logger {
 		}
 		this.log = "CookieBot Logging System          (c) Neo8 2021          " + String.valueOf(new SimpleDateFormat("dd.MM.yyyy - hh:mm:ss").format(new Date())) + "\n";
 		this.log += "Guild-Name: " + g.getName() + "          Guild-ID: " + g.getId() + "          Guild-Owner: " + g.getOwner().getUser().getId() + "\n";
-		this.log += "Lizenzschlüssel: " + Main.vars.get(g.getId()).get(VarType.LICENSE_KEY) + "          Hosting: " + Main.INSTANCE.isSelfHosted() + "\n";
+		this.log += "Lizenzschl&uuml;ssel: " + Main.vars.get(g.getId()).get(VarType.LICENSE_KEY) + "          Hosting: " + Main.INSTANCE.isSelfHosted() + "\n";
 	}
 	
 	/**
-	 * Neuen Logeintrag hinzufügen.
+	 * Neuen Logeintrag hinzuf&uuml;gen.
 	 * 
 	 * @param text Neuer Logeintrag.
 	 */
@@ -95,7 +95,7 @@ public class Logger {
 	}
 	
 	/**
-	 * Gibt die LogID zurück.
+	 * Gibt die LogID zur&uuml;ck.
 	 * 
 	 * @return LogID.
 	 */

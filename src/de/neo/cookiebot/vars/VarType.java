@@ -39,7 +39,7 @@ public enum VarType {
     TICTACTOE_CATEGORY,
     
     /**
-     * Lizenzschlüssel.
+     * Lizenzschl&uuml;ssel.
      */
     LICENSE_KEY,
     

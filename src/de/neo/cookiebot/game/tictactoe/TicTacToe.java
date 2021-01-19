@@ -88,7 +88,7 @@ public class TicTacToe implements Game {
     }
     
     /**
-     * Überprüfen, ob bereits jemand gewonnen hat.
+     * &Uuml;berpr&uuml;fen, ob bereits jemand gewonnen hat.
      * 
      * @param id FeldID, des letzten Zugs.
      * @return Boolean, ob jemand gewonnen hat.

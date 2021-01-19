@@ -33,7 +33,7 @@ public class ErrorReporter {
     }
     
     /**
-     * Gibt die fertige Message zurück.
+     * Gibt die fertige Message zur&uuml;ck.
      * 
      * @return Message.
      */

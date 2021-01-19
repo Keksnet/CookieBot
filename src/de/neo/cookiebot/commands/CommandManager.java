@@ -40,7 +40,7 @@ public class CommandManager {
     }
     
     /**
-     * Führt den Command aus.
+     * F&uuml;hrt den Command aus.
      * 
      * @param msg Message, in der der Command enthalten ist.
      */

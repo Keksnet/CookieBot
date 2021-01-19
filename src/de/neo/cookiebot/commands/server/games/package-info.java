@@ -1,4 +1,4 @@
 /**
- * Package für Game Commands.
+ * Package f&uuml;r Game Commands.
  */
 package de.neo.cookiebot.commands.server.games;

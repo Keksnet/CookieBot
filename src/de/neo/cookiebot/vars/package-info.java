@@ -1,4 +1,4 @@
 /**
- * Package für Konfigurationsverwaltung.
+ * Package f&uuml;r Konfigurationsverwaltung.
  */
 package de.neo.cookiebot.vars;

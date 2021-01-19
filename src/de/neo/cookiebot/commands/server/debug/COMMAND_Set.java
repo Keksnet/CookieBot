@@ -35,7 +35,7 @@ public class COMMAND_Set implements ServerCommand {
                     ID_SQL.sync(Main.vars.get(m.getGuild().getId()).getVars(), m.getGuild().getId());
                     c.sendMessage(new Embed("Debug [Set]", "Daten gesetzt!", Color.cyan).build()).queue();
                 }catch(SQLException e) {
-                    Main.INSTANCE.reportError(m.getGuild(), new ErrorReporter("Die SQL-Verbindung funktioniert nicht! Bitte versuche es später erneut!", true).build());
+                    Main.INSTANCE.reportError(m.getGuild(), new ErrorReporter("Die SQL-Verbindung funktioniert nicht! Bitte versuche es sp&auml;ter erneut!", true).build());
                 }
             }else if(msg.getContentRaw().split(" ")[2].toLowerCase().equals("cat")) {
                 VarManager man = Main.vars.get(m.getGuild().getId());
@@ -46,7 +46,7 @@ public class COMMAND_Set implements ServerCommand {
                     ID_SQL.sync(Main.vars.get(m.getGuild().getId()).getVars(), m.getGuild().getId());
                     c.sendMessage(new Embed("Debug [Set]", "Daten gesetzt!", Color.cyan).build()).queue();
                 }catch(SQLException e) {
-                    Main.INSTANCE.reportError(m.getGuild(), new ErrorReporter("Die SQL-Verbindung funktioniert nicht! Bitte versuche es später erneut!", true).build());
+                    Main.INSTANCE.reportError(m.getGuild(), new ErrorReporter("Die SQL-Verbindung funktioniert nicht! Bitte versuche es sp&auml;ter erneut!", true).build());
                 }
             }
         }

@@ -20,7 +20,7 @@ public class GameManager {
     }
     
     /**
-     * Fügt ein neues Spiel hinzu.
+     * F&uuml;gt ein neues Spiel hinzu.
      * 
      * @param g Neues Spiel.
      */
@@ -48,7 +48,7 @@ public class GameManager {
     }
     
     /**
-     * Gibt ein Spiel zurück, welches in einem TextChannel stattfindet.
+     * Gibt ein Spiel zur&uuml;ck, welches in einem TextChannel stattfindet.
      * 
      * @param id ID des TextChannels, in dem das Spiel stattfindet.
      * @return Spiel, welches stattfindet.

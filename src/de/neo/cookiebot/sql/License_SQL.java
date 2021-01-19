@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import de.neo.cookiebot.Main;
 
 /**
- * SQL für das Verwlaten der Lizenzen.
+ * SQL f&uuml;r das Verwlaten der Lizenzen.
  * 
  * @author Neo8
  * @version 1.0
@@ -51,10 +51,10 @@ public class License_SQL {
 	}
 	
 	/**
-	 * Setzt den Lizenzschlüssel für einen Server.
+	 * Setzt den Lizenzschl&uuml;ssel f&uuml;r einen Server.
 	 * 
 	 * @param guildid ID des Servers.
-	 * @param license Lizenzschlüssel.
+	 * @param license Lizenzschl&uuml;ssel.
 	 */
 	public static void setLicense(String guildid, String license) {
 		try {

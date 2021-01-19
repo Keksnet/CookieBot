@@ -3,7 +3,7 @@ package de.neo.cookiebot.vars;
 import java.util.HashMap;
 
 /**
- * Verwaltet Configwerte für Server.
+ * Verwaltet Configwerte f&uuml;r Server.
  * 
  * @author Neo8
  * @version 1.0
@@ -20,7 +20,7 @@ public class VarManager {
 	}
 	
 	/**
-	 * Fügt einen Wert hinzu.
+	 * F&uuml;gt einen Wert hinzu.
 	 * 
 	 * @param type Name des Werts.
 	 * @param val Wert.
@@ -40,17 +40,17 @@ public class VarManager {
 	}
 	
 	/**
-	 * Gibt an, ob ein Wert verfügbar ist.
+	 * Gibt an, ob ein Wert verf&uuml;gbar ist.
 	 * 
 	 * @param type Name des Werts.
-	 * @return Boolean, ob ein Wert verfügbar ist.
+	 * @return Boolean, ob ein Wert verf&uuml;gbar ist.
 	 */
 	public Boolean contains(VarType type) {
 		return this.val.containsKey(type);
 	}
 	
 	/**
-	 * Gibt alle Werte zurück.
+	 * Gibt alle Werte zur&uuml;ck.
 	 * 
 	 * @return HashMap mit allen Werten.
 	 */
@@ -59,7 +59,7 @@ public class VarManager {
 	}
 	
 	/**
-	 * Löscht alle Werte.
+	 * L&ouml;scht alle Werte.
 	 */
 	public void clear() {
 		this.val.clear();

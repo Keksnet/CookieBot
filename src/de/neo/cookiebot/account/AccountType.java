@@ -9,14 +9,14 @@ package de.neo.cookiebot.account;
 public enum AccountType {
 	
 	/**
-	 * Typ für einen {@link de.neo.cookiebot.account.type.MasterAccount}.
+	 * Typ f&uuml;r einen {@link de.neo.cookiebot.account.type.MasterAccount}.
 	 * 
 	 * @see de.neo.cookiebot.account.type.MasterAccount
 	 */
 	MASTER,
 	
 	/**
-	 * Typ für einen WarnAccount (W.I.P)
+	 * Typ f&uuml;r einen WarnAccount (W.I.P)
 	 */
 	WARN
 }

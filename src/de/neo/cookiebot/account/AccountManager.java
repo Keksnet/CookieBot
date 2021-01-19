@@ -35,9 +35,9 @@ public class AccountManager {
 	}
 	
 	/**
-	 * Gibt den MasterAccount eines Members zurück.
+	 * Gibt den MasterAccount eines Members zur&uuml;ck.
 	 * 
-	 * @param m Member, dem der Account gehört.
+	 * @param m Member, dem der Account geh&ouml;rt.
 	 * @return MasterAccount, der dem Member zugeordnet ist.
 	 */
 	public MasterAccount get(Member m) {
@@ -47,7 +47,7 @@ public class AccountManager {
 	/**
 	 * Gibt an, ob ein Member einen {@link de.neo.cookiebot.account.type.MasterAccount} hat.
 	 * 
-	 * @param m Member, der geprüft werden soll.
+	 * @param m Member, der gepr&uuml;ft werden soll.
 	 * @return Boolean, ob der Member bereits einen {@link de.neo.cookiebot.account.type.MasterAccount} hat.
 	 * @see de.neo.cookiebot.account.type.MasterAccount
 	 */
@@ -56,9 +56,9 @@ public class AccountManager {
 	}
 	
 	/**
-	 * Gibt alle registrierten {@link de.neo.cookiebot.account.type.MasterAccount} in einer HashMap zurück.
+	 * Gibt alle registrierten {@link de.neo.cookiebot.account.type.MasterAccount} in einer HashMap zur&uuml;ck.
 	 * 
-	 * @return HashMap, die alle registrierten {@link de.neo.cookiebot.account.type.MasterAccount} enthält.
+	 * @return HashMap, die alle registrierten {@link de.neo.cookiebot.account.type.MasterAccount} enth&auml;lt.
 	 */
 	public HashMap<Member, MasterAccount> getAccounts() {
 		return this.accounts;

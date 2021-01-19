@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.entities.Member;
 import java.util.ArrayList;
 
 /**
- * Repräsentiert eine SpielInfo.
+ * Repr&auml;sentiert eine SpielInfo.
  * 
  * @author Neo8
  * @version 1.0
@@ -32,7 +32,7 @@ public class GameInfo {
     }
     
     /**
-     * Gibt den Spielnamen zurück.
+     * Gibt den Spielnamen zur&uuml;ck.
      * 
      * @return Spielname.
      */
@@ -60,7 +60,7 @@ public class GameInfo {
     }
     
     /**
-     * Gibt den Status des Spiels zurück.
+     * Gibt den Status des Spiels zur&uuml;ck.
      * 
      * @return Status des Spiels.
      */
@@ -69,7 +69,7 @@ public class GameInfo {
     }
     
     /**
-     * Gibt alle Mitspieler zurück.
+     * Gibt alle Mitspieler zur&uuml;ck.
      * 
      * @return ArrayList mit allen Mitspielern.
      */
@@ -78,7 +78,7 @@ public class GameInfo {
     }
     
     /**
-     * Ändert den Namen des Spiels.
+     * &Auml;ndert den Namen des Spiels.
      * 
      * @param name Neuer Name des Spiels.
      */
@@ -87,7 +87,7 @@ public class GameInfo {
     }
     
     /**
-     * Fügt einen Mitspieler hinzu.
+     * F&uuml;gt einen Mitspieler hinzu.
      * 
      * @param m Neuer Mitspieler.
      */
@@ -96,7 +96,7 @@ public class GameInfo {
     }
     
     /**
-     * Ändert den Typ des Spiels.
+     * &Auml;ndert den Typ des Spiels.
      * 
      * @param type Neuer Typ des Spiels.
      */
@@ -105,7 +105,7 @@ public class GameInfo {
     }
     
     /**
-     * Ändert den Status des Spiels.
+     * &Auml;ndert den Status des Spiels.
      * 
      * @param state Neuer Status des Spiels.
      */

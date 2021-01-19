@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Verwaltet SQLVerbindung und ähnliches.
+ * Verwaltet SQLVerbindung und &auml;hnliches.
  * 
  * @author Neo8
  * @version 1.0
@@ -37,7 +37,7 @@ public class SQL {
 	}
 	
 	/**
-	 * Datenbankverbindung schließen.
+	 * Datenbankverbindung schlie&szlig;en.
 	 */
 	public void closeConnection() {
 		try {
@@ -50,7 +50,7 @@ public class SQL {
 	}
 	
 	/**
-	 * Gibt die {@link java.sql.Connection} zurück.
+	 * Gibt die {@link java.sql.Connection} zur&uuml;ck.
 	 * 
 	 * @return Datenbankverbindung.
 	 */

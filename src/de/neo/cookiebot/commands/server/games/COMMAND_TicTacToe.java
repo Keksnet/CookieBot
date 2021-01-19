@@ -28,14 +28,14 @@ public class COMMAND_TicTacToe implements ServerCommand {
                     TicTacToe game = new TicTacToe(t, m);
                     game.start();
                 }else {
-                    c.sendMessage(new Embed("TicTacToe (Anfrage)", t.getAsMention() + " möchte nicht mit dir TicTacToe spielen!", Color.pink).build()).queue();
+                    c.sendMessage(new Embed("TicTacToe (Anfrage)", t.getAsMention() + " m&ouml;chte nicht mit dir TicTacToe spielen!", Color.pink).build()).queue();
                 }
             }else if(Main.tictactoe_request.containsKey(m)){
-                c.sendMessage(new Embed("TicTacToe (Anfrage)", "Anfrage zurückgezogen!", Color.green).build()).queue();
+                c.sendMessage(new Embed("TicTacToe (Anfrage)", "Anfrage zur&uuml;ckgezogen!", Color.green).build()).queue();
                 Main.tictactoe_request.remove(m);
             }else {
                 c.sendMessage(new Embed("TicTacToe (Anfrage)", "Anfrage versendet!", Color.green).build()).queue();
-                c.sendMessage(t.getAsMention() + " " + m.getAsMention() + " möchte mit dir TicTacToe spielen! Schreibe !tictactoe " + m.getAsMention() + " um das Spiel zu starten!").queue();
+                c.sendMessage(t.getAsMention() + " " + m.getAsMention() + " m&ouml;chte mit dir TicTacToe spielen! Schreibe !tictactoe " + m.getAsMention() + " um das Spiel zu starten!").queue();
                 Main.tictactoe_request.put(m, t);
             }
         }else {

@@ -114,12 +114,12 @@ public class Main {
 			if(vars.contains(VarType.LICENSE_KEY)){
 				if(this.checkKey(vars.get(VarType.LICENSE_KEY), g.getId())){
 					License_SQL.setLicense(g.getId(), vars.get(VarType.LICENSE_KEY));
-					System.out.println(g.getName() + " hat einen gültigen Lizenschlüssel.");
+					System.out.println(g.getName() + " hat einen g&uuml;ltigen Lizenschl&uuml;ssel.");
 				}else {
 					vars.add(VarType.LICENSE_KEY, "AAAA-BBBB-CCCC-DDDD");
 					License_SQL.setLicense(g.getId(), "AAAA-BBBB-CCCC-DDDD");
 					try{
-						g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir für " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
+						g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir f&uuml;r " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschl&uuml;ssel und l&ouml;se diesen im !setup ein.", true).build()).complete();
 					}catch (ErrorResponseException ignore){
 					}
 				}
@@ -127,7 +127,7 @@ public class Main {
 				vars.add(VarType.LICENSE_KEY, "AAAA-BBBB-CCCC-DDDD");
 				License_SQL.setLicense(g.getId(), "AAAA-BBBB-CCCC-DDDD");
 				try{
-					g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir für " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
+					g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir f&uuml;r " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschl&uuml;ssel und l&ouml;se diesen im !setup ein.", true).build()).complete();
 				}catch (ErrorResponseException ignore){
 				}
 			}
@@ -146,9 +146,9 @@ public class Main {
 	}
 	
 	/**
-	 * Server wird geprüft.
+	 * Server wird gepr&uuml;ft.
 	 * 
-	 * @param g Server, der geprüft wird.
+	 * @param g Server, der gepr&uuml;ft wird.
 	 */
 	public void add(Guild g) {
 		conf.getSQL().openConnection();
@@ -159,12 +159,12 @@ public class Main {
 		if(vars.contains(VarType.LICENSE_KEY)){
 			if(this.checkKey(vars.get(VarType.LICENSE_KEY), g.getId())){
 				License_SQL.setLicense(g.getId(), vars.get(VarType.LICENSE_KEY));
-				System.out.println(g.getName() + " hat einen gültigen Lizenschlüssel.");
+				System.out.println(g.getName() + " hat einen g&uuml;ltigen Lizenschl&uuml;ssel.");
 			}else {
 				vars.add(VarType.LICENSE_KEY, "AAAA-BBBB-CCCC-DDDD");
 				License_SQL.setLicense(g.getId(), "AAAA-BBBB-CCCC-DDDD");
 				try{
-					g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir für " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
+					g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir f&uuml;r " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschl&uuml;ssel und l&ouml;se diesen im !setup ein.", true).build()).complete();
 				}catch (ErrorResponseException ignore){
 				}
 			}
@@ -172,7 +172,7 @@ public class Main {
 			vars.add(VarType.LICENSE_KEY, "AAAA-BBBB-CCCC-DDDD");
 			License_SQL.setLicense(g.getId(), "AAAA-BBBB-CCCC-DDDD");
 			try{
-				g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir für " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
+				g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir f&uuml;r " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschl&uuml;ssel und l&ouml;se diesen im !setup ein.", true).build()).complete();
 			}catch (ErrorResponseException ignore){
 			}
 		}
@@ -272,7 +272,7 @@ public class Main {
 	}
 	
 	/**
-	 * Setzt/Ändert den BotToken.
+	 * Setzt/&Auml;ndert den BotToken.
 	 */
 	private void setToken() {
 		try {
@@ -295,11 +295,11 @@ public class Main {
 	}
 	
 	/**
-	 * Prüft den Lizenzschlüssel.
+	 * Pr&uuml;ft den Lizenzschl&uuml;ssel.
 	 * 
-	 * @param key Lizenzschlüssel zum Prüfen.
-	 * @param id ID des Servers, für den der Lizenzschlüssel geprüft wird.
-	 * @return Boolean, ob der Lizenzschlüssel gültig ist.
+	 * @param key Lizenzschl&uuml;ssel zum Pr&uuml;fen.
+	 * @param id ID des Servers, f&uuml;r den der Lizenzschl&uuml;ssel gepr&uuml;ft wird.
+	 * @return Boolean, ob der Lizenzschl&uuml;ssel g&uuml;ltig ist.
 	 */
 	public Boolean checkKey(String key, String id) {
 		if(!key.equals("AAAA-BBBB-CCCC-DDDD")) {
@@ -332,7 +332,7 @@ public class Main {
 	}
 	
 	/**
-	 * Prüft, ob diese Botinstanz selbst gehostet wird.
+	 * Pr&uuml;ft, ob diese Botinstanz selbst gehostet wird.
 	 * 
 	 * @return Boolean, ob dieses Botinstanz selbst gehostet wird.
 	 */
