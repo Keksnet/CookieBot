@@ -4,8 +4,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Prüfen der SQLVerbindung.
+ * 
+ * @author Neo8
+ * @version 1.0
+ */
 public class SQLConnection {
 	
+	/**
+	 * Dateipfad auslesen.
+	 * 
+	 * @return Dateipfad.
+	 */
 	public static String getPath() {
 		String path = "";
 		path = SQLConnection.class.getProtectionDomain().getCodeSource().getLocation().getPath().replaceAll("%20", " ");
@@ -15,6 +26,9 @@ public class SQLConnection {
 		return path;
 	}
 	
+	/**
+	 * Verbindung zur SQLLite Datenbank.
+	 */
 	public static void connect() {
 		try {
 			Connection con = null;

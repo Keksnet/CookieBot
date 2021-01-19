@@ -17,6 +17,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * TicTacToe Game.
+ * 
+ * @author Neo8
+ * @version 1.0
+ */
 public class TicTacToe implements Game {
 
     GameInfo info;
@@ -26,7 +32,13 @@ public class TicTacToe implements Game {
     Member p2;
     Member next;
     HashMap<String, FieldState> table;
-
+    
+    /**
+     * Neues TicTacToe Game beginnen.
+     * 
+     * @param p1 Spieler 1.
+     * @param p2 Spieler 2.
+     */
     public TicTacToe(Member p1, Member p2){
         GameInfo info = new GameInfo("tictactoe-" + p1.getUser().getAsTag() + "-" + p2.getUser().getAsTag(), GameType.TICTACTOE, GameState.READY);
         info.addPlayer(p1);
@@ -39,13 +51,21 @@ public class TicTacToe implements Game {
         this.table = new HashMap<>();
         this.initTable();
     }
-
+    
+    /**
+     * Spielfeld vorbereiten.
+     */
     public void initTable() {
         for(String s : new String[] {"OL", "OM", "OR", "ML", "MM", "MR", "UL", "UM", "UR"}) {
             this.table.put(s, FieldState.UNSET);
         }
     }
-
+    
+    /**
+     * Aktuelles Spielfeld in Text umwandeln.
+     * 
+     * @return String, der das Spielfeld in Text darstellt.
+     */
     public String getTable() {
         String table = "";
         for(String s : new String[] {"OL", "OM", "OR", "\n", "ML", "MM", "MR", "\n", "UL", "UM", "UR"}) {
@@ -66,7 +86,13 @@ public class TicTacToe implements Game {
         }
         return table;
     }
-
+    
+    /**
+     * Überprüfen, ob bereits jemand gewonnen hat.
+     * 
+     * @param id FeldID, des letzten Zugs.
+     * @return Boolean, ob jemand gewonnen hat.
+     */
     public Boolean checkWin(String id) {
         id = id.toUpperCase();
         FieldState field = this.table.get(id);

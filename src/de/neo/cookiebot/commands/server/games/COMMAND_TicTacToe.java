@@ -10,6 +10,13 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.awt.*;
 
+/**
+ * GameCommand.
+ * Command: !tictactoe [@Member]
+ * 
+ * @author Neo8
+ * @version 1.0
+ */
 public class COMMAND_TicTacToe implements ServerCommand {
 
     @Override

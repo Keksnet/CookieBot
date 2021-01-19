@@ -7,7 +7,6 @@ import de.neo.cookiebot.util.Embed;
 import de.neo.cookiebot.vars.VarManager;
 import de.neo.cookiebot.vars.VarType;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -20,21 +19,41 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Setup auf einem Server (Guild).
+ * 
+ * @author Neo8
+ * @version 1.0
+ * @see de.neo.cookiebot.commands.server.debug.COMMAND_Setup
+ */
 public class Setup {
 
-    private final Member m;
     private SetupStep step;
     HashMap<VarType, String> vals;
-
-    public Setup(Member m) {
-        this.m = m;
+    
+    /**
+     * Neuer Setup Prozess.
+     * 
+     * @param m Member, der den Prozess gestartet hat.
+     */
+    public Setup() {
         this.step = SetupStep.STEP_0;
         this.vals = new HashMap<>();
     }
-
+    
+    /**
+     * Bearbeiten des Setups.
+     * 
+     * @param msg Message, die das Setup bearbeitet.
+     */
     public void interact(Message msg) {
-        Member m = msg.getMember();
-        if(this.m.getId().equals(m.getId())) {
+    	if(msg.getAuthor().getId().equals(Main.INSTANCE.jda.getSelfUser().getId())) {
+    		return;
+    	}
+        System.out.println("gegebener Member: " + msg.getAuthor().getId());
+        System.out.println("geforderter Member: " + msg.getGuild().getOwner().getUser().getId());
+        System.out.println(msg.getGuild().getOwner().getUser().getId().equals(msg.getAuthor().getId()));
+        if(msg.getGuild().getOwner().getUser().getId().equals(msg.getAuthor().getId())) {
             Guild g = msg.getGuild();
             VarManager vars = Main.vars.get(g.getId());
             String content = msg.getContentRaw();
@@ -142,6 +161,11 @@ public class Setup {
         }
     }
 
+    /**
+     * Senden der Antwort.
+     * 
+     * @param c TextChannel, in den die Antwort gesendet werden soll.
+     */
     public void sendMessage(TextChannel c) {
         switch (this.step) {
             case STEP_6:
@@ -180,11 +204,13 @@ public class Setup {
                 c.sendMessage(new Embed("Setup [10/10]", "Das Setup wurde erfolgreich beendet! :tada:", Color.green).build()).queue();
                 Main.setup = false;
                 for(Map.Entry<VarType, String> set : this.vals.entrySet()){
+                	System.out.println(set.getKey() + " : " + set.getValue());
                     Main.vars.get(c.getGuild().getId()).add(set.getKey(), set.getValue());
                 }
                 try{
                     ID_SQL.sync(Main.vars.get(c.getGuild().getId()).getVars(), c.getGuild().getId());
                 }catch(SQLException ignore){
+                	ignore.printStackTrace();
                 }
                 break;
                 
@@ -192,11 +218,23 @@ public class Setup {
             	break;
         }
     }
-
+    
+    /**
+     * Fehlermeldung senden.
+     * 
+     * @param c TextChannel, in den die Fehlermeldung gesendet werden soll.
+     */
     public void sendError(TextChannel c) {
         c.sendMessage(new Embed("Setup [Fehler]", ":x: Dieser Wert ist nicht gültig! :x:", Color.red).build()).queue();
     }
-
+    
+    /**
+     * Lizenzschlüssel prüfen.
+     * 
+     * @param key Lizenzschlüssel der geprüft werden soll.
+     * @param id GuildID.
+     * @return Boolean, ob der Lizenzschlüssel gültig ist.
+     */
     public Boolean checkKey(String key, String id) {
         try{
             String params = "key=" + URLEncoder.encode(key, "UTF-8") + "&guild=" + URLEncoder.encode(id, "UTF-8");
@@ -223,7 +261,13 @@ public class Setup {
             return false;
         }
     }
-
+    
+    /**
+     * Antwort des Servers parsen.
+     * 
+     * @param is InputStream, der HTTPSConnection.
+     * @return Antwort des Servers.
+     */
     private String parse(InputStream is) {
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();

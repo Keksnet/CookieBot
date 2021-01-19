@@ -3,8 +3,6 @@ package de.neo.cookiebot.tick;
 import java.awt.Color;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
 import de.neo.cookiebot.Main;
 import de.neo.cookiebot.sql.License_SQL;
 import de.neo.cookiebot.util.Embed;
@@ -12,27 +10,37 @@ import de.neo.cookiebot.vars.VarType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
+/**
+ * Regelmäßiges Prüfen der Lizenz.
+ * 
+ * @author Neo8
+ * @version 1.0
+ */
 public class LicenseTick implements Tick {
 	
 	final int time;
 	boolean ticking;
 	
+	/**
+	 * Neuer LizenzTick.
+	 * 
+	 * @param min Anzahl der Minuten, die zwischen den Ticks gewartet werden soll.
+	 */
 	public LicenseTick(int min) {
 		this.time = (min * 60) * 1000;
 		this.ticking = true;
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void run() {
 		ExecutorService threadpool = Executors.newCachedThreadPool();
-		Future<?> task = threadpool.submit(new Runnable() {
+		threadpool.submit(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					tick();
 					Thread.sleep(time);
-				} catch (InterruptedException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -44,9 +52,12 @@ public class LicenseTick implements Tick {
 		System.out.println("LicenseTick!");
 		Main.conf.getSQL().openConnection();
 		for(Guild g : Main.INSTANCE.manager.getGuilds()) {
+			System.out.println("Prüfe " + g.getName());
 			if(Main.INSTANCE.checkKey(Main.vars.get(g.getId()).get(VarType.LICENSE_KEY), g.getId())) {
+				System.out.println(g.getName() + " hat eine gültige Lizenz!");
 				License_SQL.setSuccess(g.getId());
 			}else {
+				System.out.println(g.getName() + " hat keine Lizenz!");
 				Long lastSuccess = License_SQL.getLastSuccess(g.getId());
 				if(((System.currentTimeMillis() / 1000) - lastSuccess) >= 259200L) {
 					try {
@@ -71,6 +82,7 @@ public class LicenseTick implements Tick {
 					}
 				}
 			}
+			System.out.println(g.getName() + " wurde geprüft.");
 		}
 		Main.conf.getSQL().closeConnection();
 	}

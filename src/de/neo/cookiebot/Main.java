@@ -17,7 +17,7 @@ import javax.security.auth.login.LoginException;
 import de.neo.cookiebot.commands.CommandManager;
 import de.neo.cookiebot.config.Config;
 import de.neo.cookiebot.game.GameManager;
-import de.neo.cookiebot.listener.GuildJoin;
+import de.neo.cookiebot.listener.GuildJoinListener;
 import de.neo.cookiebot.listener.MessageReceivedListener;
 import de.neo.cookiebot.setup.Setup;
 import de.neo.cookiebot.sql.ID_SQL;
@@ -36,6 +36,12 @@ import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
+/**
+ * Mainklasse.
+ * 
+ * @author Neo8
+ * @version 1.0
+ */
 public class Main {
 	
 	private String TOKEN = "";
@@ -53,10 +59,25 @@ public class Main {
 	public static Boolean setup = false;
 	public static Setup setup_c = null;
 	
+	/**
+	 * Hier startet der Bot.
+	 * 
+	 * @param args Befehlszeilenargumente.
+	 * @throws InterruptedException Fehler beim Start.
+	 * @throws LoginException Fehler beim Anmelden mit dem BotToken.
+	 * @throws SQLException Fehler bei der Datenbankverbindung.
+	 */
 	public static void main(String[] args) throws InterruptedException, LoginException, SQLException {
 		new Main();
 	}
 	
+	/**
+	 * Bot wird gestartet angemeldet und alles wird vorbereitet.
+	 * 
+	 * @throws LoginException Fehler bei der Anmeldung mit dem BotToken.
+	 * @throws InterruptedException Fehler beim Start.
+	 * @throws SQLException Fehler bei der Datenbankverbindung.
+	 */
 	public Main() throws LoginException, InterruptedException, SQLException {
 		INSTANCE = this;
 		conf = new Config();
@@ -72,7 +93,7 @@ public class Main {
 		builder.enableIntents(EnumSet.allOf(GatewayIntent.class));
 		builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 		builder.addEventListeners(new MessageReceivedListener());
-		builder.addEventListeners(new GuildJoin());
+		builder.addEventListeners(new GuildJoinListener());
 		jda = builder.build();
 		jda.awaitReady();
 		manager = jda;
@@ -81,6 +102,9 @@ public class Main {
 		this.start();
 	}
 	
+	/**
+	 * Initialisierung aller Einstellungen, erstellen aller Accounts und weitere Prozesse.
+	 */
 	public void start() {
 		for(Guild g : this.manager.getGuilds()) {
 			VarManager vars = new VarManager();
@@ -92,6 +116,7 @@ public class Main {
 					License_SQL.setLicense(g.getId(), vars.get(VarType.LICENSE_KEY));
 					System.out.println(g.getName() + " hat einen gültigen Lizenschlüssel.");
 				}else {
+					vars.add(VarType.LICENSE_KEY, "AAAA-BBBB-CCCC-DDDD");
 					License_SQL.setLicense(g.getId(), "AAAA-BBBB-CCCC-DDDD");
 					try{
 						g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir für " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
@@ -99,6 +124,7 @@ public class Main {
 					}
 				}
 			}else {
+				vars.add(VarType.LICENSE_KEY, "AAAA-BBBB-CCCC-DDDD");
 				License_SQL.setLicense(g.getId(), "AAAA-BBBB-CCCC-DDDD");
 				try{
 					g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir für " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
@@ -119,6 +145,11 @@ public class Main {
 		lt.run();
 	}
 	
+	/**
+	 * Server wird geprüft.
+	 * 
+	 * @param g Server, der geprüft wird.
+	 */
 	public void add(Guild g) {
 		conf.getSQL().openConnection();
 		VarManager vars = new VarManager();
@@ -130,6 +161,7 @@ public class Main {
 				License_SQL.setLicense(g.getId(), vars.get(VarType.LICENSE_KEY));
 				System.out.println(g.getName() + " hat einen gültigen Lizenschlüssel.");
 			}else {
+				vars.add(VarType.LICENSE_KEY, "AAAA-BBBB-CCCC-DDDD");
 				License_SQL.setLicense(g.getId(), "AAAA-BBBB-CCCC-DDDD");
 				try{
 					g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir für " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
@@ -137,6 +169,7 @@ public class Main {
 				}
 			}
 		}else {
+			vars.add(VarType.LICENSE_KEY, "AAAA-BBBB-CCCC-DDDD");
 			License_SQL.setLicense(g.getId(), "AAAA-BBBB-CCCC-DDDD");
 			try{
 				g.getOwner().getUser().openPrivateChannel().complete().sendMessage(new ErrorReporter("Bitte hole dir für " + g.getName() + " auf https://www.neo8.de/cookiebot/license.php eine Lizenzschlüssel und löse diesen im !setup ein.", true).build()).complete();
@@ -153,7 +186,13 @@ public class Main {
 		Main.vars.put(g.getId(), vars);
 		conf.getSQL().closeConnection();
 	}
-
+	
+	/**
+	 * Fehler wird meldet.
+	 * 
+	 * @param g Server, auf dem der Fehler aufgetreten ist.
+	 * @param msg Fehlernachricht, die zugestellt werden muss.
+	 */
 	public void reportError(Guild g, Message msg) {
 		if(Boolean.parseBoolean(Main.vars.get(g.getId()).get(VarType.REPORT_ERRORS))) {
 			for(Member m : g.getMembersWithRoles(g.getRoleById(Main.vars.get(g.getId()).get(VarType.DEBUG)))) {
@@ -166,6 +205,11 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Vorbereiten der SQLTables.
+	 * 
+	 * @throws SQLException Fehler bei der Datenbank.
+	 */
 	private void initTables() throws SQLException {
 		PreparedStatement st = conf.getSQL().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS config (guild varchar(255), namespace varchar(255), val varchar(255))");
 		st.execute();
@@ -175,6 +219,9 @@ public class Main {
 		st.execute();
 	}
 	
+	/**
+	 * BotToken bekommen.
+	 */
 	private void getToken() {
 		try {
 			TOKEN = "";
@@ -202,6 +249,11 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Gibt an, ob ein BotToken vorliegt.
+	 * 
+	 * @return Boolean, ob ein BotToken vorliegt.
+	 */
 	private Boolean hasToken() {
 		try {
 			PreparedStatement st = conf.getSQL().getConnection().prepareStatement("SELECT * FROM config WHERE guild = ? AND namespace = ?");
@@ -219,6 +271,9 @@ public class Main {
 		return false;
 	}
 	
+	/**
+	 * Setzt/Ändert den BotToken.
+	 */
 	private void setToken() {
 		try {
 			if(hasToken()) {
@@ -238,33 +293,72 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Prüft den Lizenzschlüssel.
+	 * 
+	 * @param key Lizenzschlüssel zum Prüfen.
+	 * @param id ID des Servers, für den der Lizenzschlüssel geprüft wird.
+	 * @return Boolean, ob der Lizenzschlüssel gültig ist.
+	 */
 	public Boolean checkKey(String key, String id) {
-		try{
-			String params = "key=" + URLEncoder.encode(key, "UTF-8") + "&guild=" + URLEncoder.encode(id, "UTF-8");
-			URL url = new URL("https://www.neo8.de/cookiebot/validate.php");
+		if(!key.equals("AAAA-BBBB-CCCC-DDDD")) {
+			try{
+				String params = "key=" + URLEncoder.encode(key, "UTF-8") + "&guild=" + URLEncoder.encode(id, "UTF-8");
+				URL url = new URL("https://www.neo8.de/cookiebot/validate.php");
+				HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+				con.setDoOutput(true);
+				con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				con.setFixedLengthStreamingMode(params.getBytes().length);
+
+				OutputStreamWriter cw = new OutputStreamWriter(con.getOutputStream());
+				cw.write(params);
+				cw.flush();
+				cw.close();
+
+				String response = this.parse(con.getInputStream());
+				con.disconnect();
+				if(response.toLowerCase().equals("valid")) {
+					return true;
+				}else {
+					return false;
+				}
+			}catch(IOException ignore) {
+				return false;
+			}
+		}else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Prüft, ob diese Botinstanz selbst gehostet wird.
+	 * 
+	 * @return Boolean, ob dieses Botinstanz selbst gehostet wird.
+	 */
+	public Boolean isSelfHosted() {
+		try {
+			URL url = new URL("https://www.neo8.de/cookiebot/hostingtype.php");
 			HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-			con.setDoOutput(true);
-			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			con.setFixedLengthStreamingMode(params.getBytes().length);
-
-			OutputStreamWriter cw = new OutputStreamWriter(con.getOutputStream());
-			cw.write(params);
-			cw.flush();
-			cw.close();
-
+			
 			String response = this.parse(con.getInputStream());
 			con.disconnect();
-			if(response.toLowerCase().equals("valid")) {
+			if(response.toLowerCase().equals("self")) {
 				return true;
 			}else {
 				return false;
 			}
-		}catch(IOException ignore) {
-			return false;
+		}catch(IOException e) {
 		}
+		return true;
 	}
-
+	
+	/**
+	 * Antwort des Servers parsen.
+	 * 
+	 * @param is InputStream der HttpsConnection.
+	 * @return Antwort des Servers.
+	 */
 	private String parse(InputStream is) {
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		StringBuilder sb = new StringBuilder();

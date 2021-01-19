@@ -4,6 +4,12 @@ import de.neo.cookiebot.account.Account;
 import de.neo.cookiebot.account.AccountType;
 import net.dv8tion.jda.api.entities.Member;
 
+/**
+ * MasterAccount für alle anderen Accounts.
+ * 
+ * @author Neo8
+ * @version 1.0
+ */
 public class MasterAccount implements Account {
 	
 	private AccountType type;
@@ -11,6 +17,11 @@ public class MasterAccount implements Account {
 	private Member member;
 	private Boolean created;
 	
+	/**
+	 * Neue Instanz des MasterAccounts.
+	 * 
+	 * @param m Member, welchem der MasterAccount zugeordnet wird.
+	 */
 	public MasterAccount(Member m) {
 		this.type = AccountType.MASTER;
 		this.master = this;
@@ -19,6 +30,11 @@ public class MasterAccount implements Account {
 		this.create();
 	}
 	
+	/**
+	 * Gibt den Member zurück, dem der MasterAccount zugeordnet wird.
+	 * 
+	 * @return Member, dem der MasterAccount zugeordnet ist.
+	 */
 	public Member getMember() {
 		return this.member;
 	}

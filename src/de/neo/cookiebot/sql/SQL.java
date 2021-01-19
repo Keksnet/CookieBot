@@ -5,23 +5,40 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Verwaltet SQLVerbindung und ähnliches.
+ * 
+ * @author Neo8
+ * @version 1.0
+ */
 public class SQL {
 	
 	Connection con;
 	String url;
 	
+	/**
+	 * Neue Datenbankverbindung.
+	 */
 	public SQL() {
 		this.url = "jdbc:sqlite:config.db";
 	}
 	
+	/**
+	 * Datenbankverbidung aufbauen.
+	 */
 	public void openConnection() {
 		try {
-			this.con = DriverManager.getConnection(this.url);
+			if(this.con == null || this.con.isClosed()) {
+				this.con = DriverManager.getConnection(this.url);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Datenbankverbindung schließen.
+	 */
 	public void closeConnection() {
 		try {
 			if(!this.con.isClosed() && this.con != null) {
@@ -32,10 +49,18 @@ public class SQL {
 		}
 	}
 	
+	/**
+	 * Gibt die {@link java.sql.Connection} zurück.
+	 * 
+	 * @return Datenbankverbindung.
+	 */
 	public Connection getConnection() {
 		return this.con;
 	}
 	
+	/**
+	 * Erstellt die Datenbank.
+	 */
 	public void createDB() {
 		try {
 			String url = "jdbc:sqlite:config.db";

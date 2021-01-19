@@ -7,8 +7,18 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * Event.
+ * Eine Nachricht wird empfangen.
+ * 
+ * @author Neo8
+ * @version 1.0
+ */
 public class MessageReceivedListener extends ListenerAdapter {
-
+	
+	/**
+	 * Event wird bearbeitet.
+	 */
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
         if(e.getChannel().getType().equals(ChannelType.TEXT)) {
